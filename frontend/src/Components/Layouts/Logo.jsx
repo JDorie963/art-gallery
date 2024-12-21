@@ -1,4 +1,4 @@
-import mmr_logo from "../../assets/Media/apgal.png";
+import apgal_logo from "../../assets/Media/apgal.png";
 import React from "react";
 
 function Logo(params) {
@@ -9,7 +9,7 @@ function Logo(params) {
 
   return (
     <>
-      <img style={mystyle} src={mmr_logo} className="logo" />
+      <img style={mystyle} src={apgal_logo} className="logo" />
     </>
   );
 }

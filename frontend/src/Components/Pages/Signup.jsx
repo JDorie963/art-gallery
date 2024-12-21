@@ -4,7 +4,7 @@ import Text from "../Layouts/Text";
 import ReturnButton from "../Layouts/ReturnButton";
 import Link from "../Layouts/Link";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,12 +14,12 @@ import CustomLoadingButton from "../Layouts/CustumLoadingButton";
 import useScreenOrientation from "react-hook-screen-orientation";
 import Landscape from "./Landscape";
 
-function Signup() {
+function Signup(){
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); 
 
   const [error, setError] = useState("");
 
@@ -31,10 +31,10 @@ function Signup() {
   const [errorEmail, setErrorEmail] = useState("");
   const [pending, setPending] = useState(false);
 
-  const { t, i18n } = useTranslation(["gallaryinfo"]);
+  const {t, i18n} = useTransition(["gallaryinfo"]);
   const orientation = useScreenOrientation();
 
-  const handleSubmit = async () => {
+  const  handleSubmit = async () => {
     if (name == "" || username == "" || email == "" || password == "") {
       setError(t("You should fill all fields!"));
       setMargin("58px");
@@ -47,10 +47,13 @@ function Signup() {
         password: password,
       };
       axios
-        .post("http://172.20.10.10:8000/api/gallaries/", item)
+        .post("http://172.20.10.10:8080/api/gallaries", item)
         .then((response) => {
           setPending(true);
-          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("user", JSON.stringify(response.data));   {/*This line stores the data returned from the server (response.data)
+                                                                            in the browser's local storage under the key "user".
+                                                                            JSON.stringify() is used to convert the JavaScript object into a JSON string
+                                                                            before storing it, as local storage can only store strings.*/}
           navigate("/additionalinfo");
           setError("");
           setErrorName("");
@@ -59,12 +62,13 @@ function Signup() {
           setErrorEmail("");
         })
         .catch((error) => {
-          if (error.response.data.name) {
+          if(error.response.data.name) {
             setError(error.response.data.name);
             setErrorName("red");
             setErrorUserName("");
             setErrorPassword("");
             setErrorEmail("");
+
           } else if (error.response.data.username) {
             setError(error.response.data.username);
             setErrorUserName("red");
@@ -74,68 +78,71 @@ function Signup() {
           } else if (error.response.data.password) {
             setError(error.response.data.password);
             setErrorPassword("red");
-            setErrorName("");
             setErrorUserName("");
+            setErrorName("");
             setErrorEmail("");
           } else if (error.response.data.email) {
             setError(error.response.data.email);
             setErrorEmail("red");
-            setErrorName("");
-            setErrorUserName("");
             setErrorPassword("");
+            setErrorUserName("");
+            setErrorName("");
           } else console.log(error);
         });
+
     }
   };
 
-  return (
+  return(
     <>
-      {orientation == "landscape-primary" ||
-      orientation == "landscape-secondary" ? (
-        <Landscape />
-      ) : (
-        <>
-          <ReturnButton path="/" />
-          <div style={{ alignItems: "center", marginTop: "60px" }}>
-            <Input
-              text={t("Museum / Gallary name")}
-              stateChanger={setName}
-              border={errorName}
-            />
-            <Input
-              text={t("username")}
-              stateChanger={setUsername}
-              border={errorUserName}
-            />
-            <Input
-              text={t("email")}
-              stateChanger={setEmail}
-              border={errorEmail}
-            />
-            <Input
-              type="password"
-              text={t("password")}
-              stateChanger={setPassword}
-              border={errorPassword}
-            />
+       {orientation =="landscape-primary" ||
+        orientation == "landscape-secondary" ? (
+          <Landscape />
+        ) : (
+          <>
+            <ReturnButton path="/" />
+            <div style={{ alignItems: "center", maginTop: "60px" }}>
+              {/*------------------------------------ERORR-------------------------------------- */}
+              <Input
+                text={t("Museum / Gallary name")}
+                stateChanger={setName}
+                border={errorName}
+              />
+              <Input
+                text={t("username")}
+                stateChanger={setUsername}
+                border={errorUserName}
+              />
+              <Input
+                text={t("email")}
+                stateChanger={setEmail}
+                border={errorEmail}
+              />
+              <Input
+                text={t("password")}
+                stateChanger={setPassword}
+                border={errorPassword}
+              />
 
-            {error != "" && (
-              <Text marginTop={"25px"} color={"red-text"} text={error} />
-            )}
+              { error != "" && (
+                <Text maginTop={"25px"} color={"red-text"} text={error} />
+              )}
 
-            <div style={{ marginTop: margin }} />
-            {!pending && (
-              <Button text={t("signup")} stateChanger={handleSubmit} />
-            )}
-            {pending && <CustomLoadingButton />}
+              <div style={{ marginTop: margin}} />
 
-            <Text marginTop={"40px"} text={t("Already have an account?")} />
-            <Link text={t("Click here to login")} path="/login" />
+              { !pending && (
+                <Button text={t("signup")} stateChanger={handleSubmit} />
+              )}
 
-            <div style={{ marginTop: "60px" }} />
-          </div>
-        </>
-      )}
+              { pending && <CustomLoadingButton />}
+
+              <Text marginTop={"40px"} text={t("Already have an account?")} />
+              <Link text={t("Click here to login")} path="/login" />
+
+              <div style={{ marginTop: "60px" }}/>
+            </div>
+          </>
+        )}
     </>
   );
 }
