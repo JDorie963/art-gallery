@@ -13,11 +13,11 @@ import useScreenOrientation from "react-hook-screen-orientation";
 import ReturnButton from "../Layouts/ReturnButton";
 import Landscape from "./Landscape";
 
-function Home(){
+function Home() {
   const { t, i18n } = useTranslation(["home"]);
   const orientation = useScreenOrientation();
 
-  return(
+  return (
     <>
       {orientation == "landscape-primary" ||
       orientation == "landscape-secondary" ? (
@@ -25,9 +25,11 @@ function Home(){
       ) : (
         <>
           <ReturnButton notHasReturn={true} />
-          <div style={{alignItems: "center" }}>
+          <div style={{ alignItems: "center" }}>
             <Logo width={100} />
-            <Button text={t("scan")} redirectPath={"http://127.0.0.1:8080"} />  {/*Temporary redirect to this path */}
+            {/* <Button text={t("scan")} redirectPath={"http://127.0.0.1:8080"} /> */}
+            {/* <Button text={t("scan")} redirectPath={"http://172.20.10.10:5502/scan-compile/scan/index.html"} /> */}
+            <Button text={t("scan")} redirectPath={"http://172.20.10.10:5502/scan-compile/scan/index.html"} />
             <Text
               marginTop={"50px"}
               text={t("Do you own a museum / gallary?")}
@@ -35,19 +37,19 @@ function Home(){
             <Link text={t("Click here to signup")} path="/signup" />
           </div>
 
-          <div 
+          <div
             style={{
               marginTop: "120px",
               justifyContent: "space-around",
-              display:"flex",
+              display: "flex",
             }}
           >
-            <ImageButton 
+            <ImageButton
               image={about_us_img}
               text={t("About Us")}
               path="/aboutus"
             />
-            <ImageButton image={how_to_img} text={t("How to use")} />
+            <ImageButton image={how_to_img} text={t("How to Use")} />
           </div>
           <div style={{ marginTop: "50px" }}></div>
         </>

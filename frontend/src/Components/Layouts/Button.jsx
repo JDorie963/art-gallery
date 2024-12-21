@@ -8,6 +8,10 @@
  * @param {string} params.redirectPath Path to redirect to when the button is clicked
  * @param {string} params.path Path to navigate to when the button is clicked
  * @param {function} params.stateChanger Callback to be invoked when the button is clicked and it is a login or signup button
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 0d89ddae21bbe3cce8c3ec461a0555c517627e64
  */
 
 import React from "react";
