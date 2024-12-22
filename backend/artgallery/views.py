@@ -4,14 +4,6 @@ from .models import *
 from django.http import Http404
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-'''
-ListCreateAPIView: A view that provides
-GET and POST methods for listing and creating objects.
-
-RetrieveUpdateDestroyAPIView:
-    A view that provides GET, PUT, PATCH, and DELETE methods
-    for retrieving,updating, and deleting an object.
-'''
 from selenium import webdriver
 import os
 from selenium.webdriver.common.keys import Keys

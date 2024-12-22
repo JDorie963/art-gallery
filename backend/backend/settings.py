@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'artgallery',
 ]
 
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
+# Just because of this '/' at the end of this:
+# 'http://localhost:5173'
+# like this "http://localhost:5173/"
+# was a fucked up
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,7 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ORIGIN_WHITELIST = [
-    
+    "http://localhost:5173",
     "http://localhost:3000",
     # React frontend
 ]
